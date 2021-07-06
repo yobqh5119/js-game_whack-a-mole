@@ -1,47 +1,51 @@
-const square = document.querySelectorAll('.square');
-const mole = document.querySelectorAll('.mole');
-const timeLeft = document.querySelector('#time-left');
-let scroe = document.querySelector('#score');
+document.addEventListener('DOMContentLoaded', () => {
+  const squares = document.querySelectorAll('.square');
+  const displayScore = document.querySelector('.score');
+  const timeLeft = document.querySelector('#timeLeft');
 
-let result = 0;
-let currentTime = timeLeft.textContent;
 
-function randomSquare() {
-  square.forEach(className => {
-    className.classList.remove('mole');
-  })
-  let randomPosition = square[Math.floor(Math.random() * 9)]
-  randomPosition.classList.add('mole');
+  let hitPosition;
+  let move = null;
+  let score = 0;
+  let currentTimeLeft = timeLeft.textContent
 
-  // Assign the id of the randomPosition to hitPosition for us to use later
-  hitPosition = randomPosition.id;
+  // Move Mole
+  function randomSquare() {
+    squares.forEach(square => {
+      square.classList.remove('mole');
+    })
+    
+    // Random position
+    const randomPosition = squares[Math.floor(Math.random() * 9)];
+    randomPosition.classList.add('mole');
+    hitPosition = randomPosition.id;
+  }
 
-}
-
-square.forEach(id => {
-  id.addEventListener('mouseup', () => {
-    if(id.id === hitPosition) {
-      result = result + 1;
-      scroe.textContent = result;
+  squares.forEach(id => {
+    id.onclick = () => {
+      if (id.id == hitPosition) {
+        score ++
+        displayScore.innerHTML = score;
+      } 
     }
   })
-})
 
-function moveMole() {
-  let timerId = null;
-  timerId = setInterval(randomSquare, 1000);
-}
+  move = setInterval(randomSquare, 1000)
 
-moveMole()
+  // Keep track of score
 
-function countDown() {
-  currentTime--
-  timeLeft.textContent = currentTime
+  // Time reducing
+  function timeTicking() {
+    currentTimeLeft --;
+    timeLeft.innerHTML = currentTimeLeft;
 
-  if (currentTime === 0) {
-    clearInterval(timerId);
-    alert('Game Over!')
+    if (currentTimeLeft === 0) {
+      alert('Game over!');
+      clearInterval(move);
+      clearInterval(timerId)
+    }
   }
-}
 
-let timerId = setInterval(countDown, 1000)
+  let timerId = setInterval(timeTicking, 1000)
+  
+})
