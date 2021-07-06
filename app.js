@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const board = document.querySelector('.grid');
   const squares = document.querySelectorAll('.square');
   const displayScore = document.querySelector('.score');
   const timeLeft = document.querySelector('#timeLeft');
